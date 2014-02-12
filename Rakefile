@@ -206,6 +206,11 @@ task :update_source, :theme do |t, args|
   puts "## Updated #{source_dir} ##"
 end
 
+desc "--> rake install \\['Pageturner'\\]"
+task :install_pageturner do
+  system "rake install \\\\['Pageturner'\\\\]"
+end
+
 ##############
 # Deploying  #
 ##############

@@ -63,7 +63,7 @@ h2 {
 	& > footer {
 		margin-top: 2em;
 		padding: 2em 0;
-		border-top: 1px solid $light-gray;
+		// border-top: 1px solid $light-gray;
 		text-align: center;
 		font-size: 0.8em;
 		}
@@ -71,9 +71,10 @@ h2 {
 
 /* The main blog header */
 header {
-	margin-bottom: $space-between-posts/2*1em;
+	// margin-bottom: $space-between-posts/2*1em;
+	margin-bottom: 1em;
 	padding: $header-spacing 0;
-	border-bottom: 1px solid $light-gray;
+	// border-bottom: 1px solid $light-gray;
 	text-align: center;
 	
 	.title {
@@ -125,7 +126,8 @@ blockquote {
 	}
 	
 article {
-	margin-bottom: $space-between-posts*1em;
+	// margin-bottom: $space-between-posts*1em;
+	margin-bottom: 1em;
 	padding: 0;
 	font-size: $post-font-size;
 	line-height: $post-font-line-height;
@@ -242,7 +244,7 @@ p > code {
 
 .pagination {
 	position: relative;
-	margin: 5em 0;
+	margin: 0 0;
 	
 	a {
 		font-family: $paginator-font-family;

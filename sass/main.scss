@@ -237,7 +237,7 @@ code {
 /* Inline code */
 p > code {
 	border: 1px solid $light-gray;
-	@include border-radius(4px);
+	// @include border-radius(4px);
 	background-color: $code-background-color;
 	white-space: nowrap;
 	}
@@ -293,3 +293,8 @@ p > code {
 	margin-left: $month-indent;
 	}
 	
+
+.gist .gist-file {
+  font-size: .75em;
+  line-height: 1.5em;
+}

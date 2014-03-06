@@ -11,13 +11,77 @@ Even though I didnt get my Joodo app up on Dokku, I still wanted to deploy somet
 First you need to move most of your gems out of development in your `Gemfile`.
 
 Before:
-<script src="https://gist.github.com/zacholauson/c55c7e3fc1fce65d052a.js"></script>
+
+{% codeblock lang:ruby %}
+source "https://rubygems.org"
+
+group :development do
+  gem 'rake', '~> 0.9'
+  gem 'jekyll', '~> 0.12'
+  gem 'rdiscount', '~> 2.0.7'
+  gem 'pygments.rb', '~> 0.3.4'
+  gem 'RedCloth', '~> 4.2.9'
+  gem 'haml', '~> 3.1.7'
+  gem 'compass', '~> 0.12.2'
+  gem 'sass', '~> 3.2'
+  gem 'sass-globbing', '~> 1.0.0'
+  gem 'rubypants', '~> 0.2.0'
+  gem 'rb-fsevent', '~> 0.9'
+  gem 'stringex', '~> 1.4.0'
+  gem 'liquid', '~> 2.3.0'
+  gem 'directory_watcher', '1.4.1'
+end
+
+gem 'sinatra', '~> 1.4.2'
+
+{% endcodeblock %}
 
 After:
-<script src="https://gist.github.com/zacholauson/82c48af0c4934bc8804d.js"></script>
+
+{% codeblock lang:ruby %}
+
+source "https://rubygems.org"
+
+gem 'rake', '~> 0.9'
+gem 'jekyll', '~> 0.12'
+gem 'rdiscount', '~> 2.0.7'
+gem 'pygments.rb', '~> 0.3.4'
+gem 'RedCloth', '~> 4.2.9'
+gem 'haml', '~> 3.1.7'
+gem 'compass', '~> 0.12.2'
+gem 'sass', '~> 3.2'
+gem 'sass-globbing', '~> 1.0.0'
+gem 'rubypants', '~> 0.2.0'
+gem 'stringex', '~> 1.4.0'
+gem 'liquid', '~> 2.3.0'
+gem 'directory_watcher', '1.4.1'
+gem 'thin'
+gem 'sinatra', '~> 1.4.2'
+
+group :development do
+  gem 'rb-fsevent', '~> 0.9'
+end
+
+{% endcodeblock %}
 
 Lastly, you need to include Public into git, so just remove it from your `.gitignore`.
-<script src="https://gist.github.com/zacholauson/59fd35dffcefd2209810.js"></script>
+
+{% codeblock %}
+
+.bundle
+.DS_Store
+.sass-cache
+.gist-cache
+.pygments-cache
+_deploy
+sass.old
+source.old
+source/_stash
+source/stylesheets/screen.css
+vendor
+node_modules
+
+{% endcodeblock %}
 
 Now your Octopress setup should work on Dokku.
 

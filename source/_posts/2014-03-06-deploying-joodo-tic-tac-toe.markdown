@@ -23,15 +23,13 @@ git push heroku master
 
 I couldn't get the app to deploy because of an error caused by the Java version heroku was using, the Lein version Heroku was using, and I didn't have a Procfile.
 
-Set Heroku Java version
----
+### Set Heroku Java version
 
   To fix the Java version error you can create a `system.properties` file in the root of your project specifying the Java version your app should use:
 
   {% codeblock lang:ini %} java.runtime.version=1.7 {% endcodeblock %}
 
-Set minimum Lein version
----
+### Set minimum Lein version
 
   By default Heroku uses `1.7.x` but we want it to use atleast `2.0.0`
 
@@ -40,10 +38,9 @@ Set minimum Lein version
   {% codeblock lang:clojure %} :min-lein-version "2.0.0" {% endcodeblock %}
 
 
-[Procfile](https://devcenter.heroku.com/articles/procfile)
----
+### Procfile
 
-  The Procfile can do a lot of things on Heroku, but all we need it to do is tell Heroku how to run our app.
+  The [Procfile](https://devcenter.heroku.com/articles/procfile) can do a lot of things on Heroku, but all we need it to do is tell Heroku how to run our app.
 
   Add a `Procfile` to the root of your app.
 
@@ -51,12 +48,13 @@ Set minimum Lein version
   web: lein trampoline ring server-headless $PORT
   {% endcodeblock %}
 
-  * `trampoline` allows the parent Leiningen process to exit before the projects process starts, so then you only have 1 JVM running instead of two
-  * `server-headless` makes the ring server to start without opening a browser, I dont think this would cause an issue with Heroku, but theres really no point in it trying.
-  * `$PORT` takes the port Heroku wants the app to run on and tells Lein Ring to run on that port.
+  `trampoline` allows the parent Leiningen process to exit before the projects process starts, so then you only have one JVM running instead of two.
 
-Fix missing dependency
----
+  `server-headless` makes the ring server to start without opening a browser, I dont think this would cause an issue with Heroku, but theres really no point in it trying.
+
+  `$PORT` takes the port Heroku wants the app to run on and tells Lein Ring to run on that port.
+
+### Fix missing dependency
 
   I then ran into another error where while compiling, it couldn't find the [Fresh](https://github.com/slagyr/fresh) dependency, you can add that to your `project.clj` like I did at line 9:
 
@@ -64,8 +62,8 @@ Fix missing dependency
 (defproject ttt-clojure-web "0.1.0-SNAPSHOT"
   :dependencies [[hiccups "0.2.0"]
                  [joodo "2.1.0"]
-                 [org.clojars.trptcolin/domina "1.0.2.1"] ; waiting on release including https://github.com/levand/domina/pull/65
-                 [org.clojars.trptcolin/shoreleave-remote "0.3.0.1"] ; waiting on release including]
+                 [org.clojars.trptcolin/domina "1.0.2.1"]
+                 [org.clojars.trptcolin/shoreleave-remote "0.3.0.1"]
                  [org.clojure/clojure "1.5.1"]
                  [ring-server/ring-server "0.3.1"]
                  [shoreleave/shoreleave-remote-ring "0.3.0" :exclusions [[org.clojure/tools.reader]]]
@@ -89,24 +87,24 @@ After reading about compiling Clojure apps to deploy for a while, I came across 
 
 1. You need to compile a WAR file, Lein ring has this feature built in:
 
-	`lein ring uberwar`
-	
-	This will compile a WAR file and put it in your `target/` directory.
+  `lein ring uberwar`
 
-	There are also some things you can pass with it as options. I didnt need any of them to get this work work but you can find them [here](https://github.com/weavejester/lein-ring#compiling)
+  This will compile a WAR file and put it in your `target/` directory.
+
+  There are also some things you can pass with it as options. I didnt need any of them to get this work work but you can find them [here](https://github.com/weavejester/lein-ring#compiling)
 
 2. Install Heroku Deploy plugin
 
-	You can install it with this if you have the [Heroku toolbelt](https://toolbelt.heroku.com/) installed:
+  You can install it with this if you have the [Heroku toolbelt](https://toolbelt.heroku.com/) installed:
 
-	`heroku plugins:install https://github.com/heroku/heroku-deploy`
+  `heroku plugins:install https://github.com/heroku/heroku-deploy`
 
 3. Deploy!
 
-	`heroku deploy:war --war <path_to_war_file>`
+  `heroku deploy:war --war <path_to_war_file>`
 
-	You can read more about how to deploy WAR files and the options available here:
-	
-	[https://devcenter.heroku.com/articles/war-deployment#command-line](https://devcenter.heroku.com/articles/war-deployment#command-line)
+  You can read more about how to deploy WAR files and the options available here:
+
+  [https://devcenter.heroku.com/articles/war-deployment#command-line](https://devcenter.heroku.com/articles/war-deployment#command-line)
 
 I would still like to figure out why specifically my namespaces werent being required when deploying and running with Lein, but this works for now.

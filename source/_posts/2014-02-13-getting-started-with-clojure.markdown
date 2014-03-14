@@ -16,8 +16,8 @@ I started on some Katas once I kind of got the hang of some of Clojure's feature
 
 After I had done some katas, I started on Tic Tac Toe. At first I was having a difficult time thinking through it in a functional way. I initially started writing it out revolving around a gamestate with state using Atoms. I was told that was not very functional so I scrapped that and moved to just a single hash-map storing the movelist, turn, and board like this: 
 
-``` clojure
+{% codeblock lang:clojure %}
  {:movelist [] :turn "x" :board [:- :- :- :- :- :- :- :- :-]}
-```
+{% endcodeblock %}
 
 On Tuesday I got minimax working so I have a [unbeatable Tic Tac Toe](https://github.com/zacholauson/tictactoe-clojure), but its still pretty slow, even though its much quicker than my Ruby version. I am now working on implementing Alpha-Beta pruning which is a way of pruning out gamestates that wont benefit minimax to score which, in the best case can speed up the algorithm quite a lot.

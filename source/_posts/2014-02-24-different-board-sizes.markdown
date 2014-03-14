@@ -12,19 +12,19 @@ This morning I worked on putting together code that would generate the winning l
 Getting the rows and columns was pretty easy
 using partition and mapv (like Ruby's transpose from what I understand).
 
-``` clojure
+{% codeblock lang:clojure %}
 (defn rows [board-size]
   (partition (math/sqrt board-size) (range board-size)))
 
 (defn columns [board-size]
   (apply mapv vector (rows board-size)))
-```
+{% endcodeblock %}
 
 The more challenging part came when I had to get the diagonals
 I decided to recreate the step method from Ruby
 to get the diagonal indexes starting from the left
 
-``` clojure
+{% codeblock lang:clojure %}
 (defn step [step-num range-vec]
   (loop [range-vec range-vec
          return-col []]
@@ -32,12 +32,11 @@ to get the diagonal indexes starting from the left
       (let [return-col (conj return-col (first range-vec))]
         (recur (drop step-num range-vec) return-col))
        return-col)))
-```
+{% endcodeblock %}
 
 For the 'right diagonal' I basically just did the reverse
 
-``` clojure
-
+{% codeblock lang:clojure %}
 (defn right-diag [board-size]
   (let [range-vec (range board-size)
         step-num (- (math/sqrt board-size) 1)]
@@ -52,7 +51,7 @@ For the 'right diagonal' I basically just did the reverse
   (memoize
     (fn [board-size]
       (let [row-size (math/sqrt board-size)]
-```
+{% endcodeblock %}
 
 This is my favorite part of the function, 
   I had been seeing this ->> macro all over but I didnt quite understand
@@ -67,8 +66,7 @@ Basically you start out the macro with a initial value,
 So in this case the right diagonal will result in:
 [2 4 6] for a 3x3 board
 
-``` clojure
-
+{% codeblock lang:clojure %}
 (->> (right-diag board-size)
     ;; then it passes the [2 4 6] from the function above to the next function
     ;; so this is really
@@ -79,17 +77,16 @@ So in this case the right diagonal will result in:
     (concat (rows board-size))
     (flatten)
     (partition row-size))))))
-
-```
+{% endcodeblock %}
 
 Originally I was just passing the function a gamestate but it really slowed down my app and my tests.
 I did some reading on memoization and realized that if I passed the function the board size instead of the unique gamestate that I could cache the winning positions for the game and really cut back on the time it took to execute.
 
 So I change the argument `calculate-winning-positions` to accept a board size instead of the gamestate and then wrapped it in memoize.
 
-``` clojure
+{% codeblock lang:clojure %}
 (defn winning-positions [gamestate]
     (calculate-winning-positions (count (:board gamestate))))
-```
+{% endcodeblock %}
 
 The time this cut down kinda blew me away, I was able to run all my unit tests in ~ 0.02 seconds.

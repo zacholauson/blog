@@ -28,9 +28,9 @@ First I create a new gamestate to pass to the request.
 
 Then I can build up the request with my chosen move as a param.
 
-``` clojure
+{% codeblock lang:clojure %}
 (request :post "/move" :session {:gamestate new-gamestate} :params {:move "0"})
-```
+{% endcodeblock %}
 
 This will post to the server and give me the full request back so I can test that when the human posts to `/move`
 the controller will parse that move and put the humans piece on the board, then if the game is not over, the controller has the comptuer make a move and sets the new gamestate to the session.

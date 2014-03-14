@@ -6,7 +6,7 @@ date: 2014-02-17 09:00
 ---
 Over the past two weeks I have been working on Tic Tac Toe in Clojure. You can view my whole repo [here](https://github.com/zacholauson/tictactoe-clojure) but I thought I would explain how I tested if my Ai was actually unbeatable.
 
-``` clojure
+{% codeblock lang:clojure %}
 (defn playout-every-game [gamestate]
   ;; Here I check if its the computers turn.
   ;; It should always be the computers turn at this point,
@@ -30,7 +30,7 @@ Over the past two weeks I have been working on Tic Tac Toe in Clojure. You can v
                          ;; through the function until every gamestate has been played.
                          :else (playout-every-game newer-gamestate))))
              (possible-moves new-gamestate))))))
-```
+{% endcodeblock %}
 
 If I run `(playout-every-game {:board [:- :- :- :- :- :- :- :- :-] :computer :x})`
 it will return a bunch of nested lists to represent the wins and loses
@@ -40,10 +40,10 @@ Then we can call distinct on it, which will return a lazy sequence with duplicat
 so it should return `(true)` but if the human did win in a gamestate it would return `(true false)`.
 Then we check that everything within the lazy sequence is true
 
-``` clojure
+{% codeblock lang:clojure %}
 (describe "minimax"
   (it "when playing out every possible game they should all return true for win or tie when computer goes first"
     (should= true (every? true? (distinct (flatten (playout-every-game {:board [:- :- :- :- :- :- :- :- :-] :computer :x}))))))
   (it "when playing out every possible game they should all return true for win or tie when human goes first"
     (should= true (every? true? (distinct (flatten (playout-every-game {:board [:- :- :- :- :- :- :- :- :-] :computer :o})))))))
-```
+{% endcodeblock %}

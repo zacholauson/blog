@@ -1,6 +1,7 @@
 .highlight, html .gist .gist-file .gist-syntax .gist-highlight {
   table td.code { width: 100%; }
-  border: 1px solid $pre-border !important;
+  border: 1px solid #7f8c8d !important;
+  // border: 1px solid $pre-border !important;
 }
 .highlight .line-numbers, html .gist .gist-file .gist-syntax .highlight .line_numbers {
   text-align: right;
@@ -8,8 +9,9 @@
   line-height: 1.45em;
   @if $solarized == light {
     background: lighten($base03, 1) $noise-bg !important;
-    border-right: 1px solid darken($base02, 2) !important;
-    @include box-shadow(lighten($base03, 2) -1px 0 inset);
+    // border-right: 1px solid darken($base02, 2) !important;
+    border-right: 0px solid #7f8c8d !important;
+    // @include box-shadow(lighten($base03, 2) -1px 0 inset);
     text-shadow: lighten($base02, 2) 0 -1px;
   } @else {
     background: $base02 $noise-bg !important;
@@ -236,17 +238,19 @@ figure.code {
   text-align: center;
   font-size: 13px;
   line-height: 2em;
-  text-shadow: #cbcccc 0 1px 0;
+  // text-shadow: #cbcccc 0 1px 0;
   color: #474747;
   font-weight: normal;
   margin-bottom: 0;
-  @include border-top-radius(5px);
+  @include border-top-radius(0px);
+  // @include border-top-radius(5px);
   font-family: "Helvetica Neue", Arial, "Lucida Grande", "Lucida Sans Unicode", Lucida, sans-serif;
-  background: #aaaaaa image-url("code_bg.png") top repeat-x;
+  // background: #aaaaaa image-url("code_bg.png") top repeat-x;
+  background-color: #ecf0f1;
   border: 1px solid #565656;
-  border-top-color: #cbcbcb;
-  border-left-color: #a5a5a5;
-  border-right-color: #a5a5a5;
+  border-top-color: #7f8c8d;
+  border-left-color: #7f8c8d;
+  border-right-color: #7f8c8d;
   border-bottom: 0;
 }
 

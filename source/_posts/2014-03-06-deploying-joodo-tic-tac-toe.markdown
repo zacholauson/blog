@@ -58,7 +58,7 @@ I couldn't get the app to deploy because of an error caused by the Java version 
 
   I then ran into another error where while compiling, it couldn't find the [Fresh](https://github.com/slagyr/fresh) dependency, you can add that to your `project.clj` like I did at line 9:
 
-``` clojure
+{% codeblock lang:clojure %}
 (defproject ttt-clojure-web "0.1.0-SNAPSHOT"
   :dependencies [[hiccups "0.2.0"]
                  [joodo "2.1.0"]
@@ -69,7 +69,7 @@ I couldn't get the app to deploy because of an error caused by the Java version 
                  [shoreleave/shoreleave-remote-ring "0.3.0" :exclusions [[org.clojure/tools.reader]]]
                  [fresh "1.0.1"]
                  [ttt-clojure "0.1.1-SNAPSHOT"]])
-```
+{% endcodeblock %}
 
 After all of that, I finally got Heroku to compile my app and deploy, although thats where the real problem started happening. It was not loading the `ttt-clojure-web.view-helpers` namespace, so the app wouldn't actually run. 
 

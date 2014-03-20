@@ -82,7 +82,7 @@ Now if you reboot your droplet, and run `ps aux | grep tmate` you should see tha
 ## Extra Automation
 
 DigitalOcean has a great api that allows you to automate server tasks.
-I wrote a simple Ruby script that I could run to spin up the vps that is hosting my tmate slave and then open up tmate once the server is up.
+I wrote a simple Ruby [script](https://github.com/zacholauson/dotfiles/blob/master/bin/pair) that I could run to spin up the vps that is hosting my tmate slave and then open up tmate once the server is up.
 
 {% codeblock lang:ruby %}
 #!/usr/bin/env ruby
@@ -94,7 +94,7 @@ DIGITALOCEANFILE = "~/.digitalocean"
 CONFIG           = YAML.load_file(File.expand_path(DIGITALOCEANFILE))
 
 def get_dropletID(domain)
-  CONFIG["droplets"][domain]
+  CONFIG["droplets"][domain]["id"]
 end
 
 def boot_server(dropletID)
@@ -119,7 +119,7 @@ def setup_pair_session_on(domain)
   `tmate`
 end
 
-setup_pair_session_on("pair.zacholauson.io")
+setup_pair_session_on("sub.sampledomain.com")
 {% endcodeblock %}
 
 To keep my api keys and droplet ids out of my script, I put then in a yaml config, which is loaded on lines 6 and 7 of my script.
@@ -127,13 +127,51 @@ To keep my api keys and droplet ids out of my script, I put then in a yaml confi
 {% codeblock lang:yaml %}
 # ~/.digitalocean
 
+---
 keys:
   client: abcdefghijklmnopqrstuv
   api:    123456789abcdefghijklmnopqrstuv
 droplets:
-  sampledomain.com:            1234567
-  sub.sampledomain.com:        1234567
-  anothersub.sampledomain.com: 1234567
+  sampledomain.com:
+    id: 1234567
+    size_id: 63
+    ip_address: 127.0.0.1
+  sub.sampledomain.com:
+    id: 1234567
+    size_id: 66
+    ip_address: 127.0.0.1
+  anothersub.sampledomain.com:
+    id: 1234567
+    size_id: 63
+    ip_address: 127.0.0.1
+{% endcodeblock %}
+
+To populate my droplet info, I wrote a [script](https://github.com/zacholauson/dotfiles/blob/master/bin/populate-digital-ocean-config) that generates the yaml, but for it to work you need to still have `~/.digitalocean` with your keys in it
+
+{% codeblock lang:ruby %}
+#!/usr/bin/env ruby
+
+require 'json'
+require 'yaml'
+
+DIGITALOCEANFILE = "~/.digitalocean"
+CONFIG           = YAML.load_file(File.expand_path(DIGITALOCEANFILE))
+
+def droplets
+  JSON.parse(`curl -sG "https://api.digitalocean.com/droplets/?client_id=#{CONFIG["keys"]["client"]}&api_key=#{CONFIG["keys"]["api"]}"`)["droplets"]
+end
+
+def build_droplet_attributes(droplet)
+  attributes = ["id", "size_id", "ip_address"]
+  Hash[attributes.map {|attribute| [attribute, droplet[attribute]]}]
+end
+
+droplets.each do |droplet|
+  CONFIG["droplets"] = {} unless CONFIG["droplets"]
+  CONFIG["droplets"][droplet["name"]] = build_droplet_attributes(droplet)
+end
+
+File.open(File.expand_path(DIGITALOCEANFILE), 'w') {|file| file.write CONFIG.to_yaml }
 {% endcodeblock %}
 
 Still on my todo list is to pipe the ssh command generated from tmate back to the clipboard so I can easily send it to whoever I am pairing with.

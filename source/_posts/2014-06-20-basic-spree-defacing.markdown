@@ -7,7 +7,7 @@ date: 2014-06-20 13:32
 Ive been working on a Spree app for a couple of weeks now and I think I am finally starting to get a better understanding of Deface.
 
 To override a view in Spree, you can either overwrite the template completely, or use Deface to add / remove elements from a layout.
-Overwritting a layout is really easy because you just put a new template in the location of the template your overwritting in Spree, but in your app.
+Overwriting a layout is really easy because you just put a new template in the location of the template your overwritting in Spree, but in your app.
 Deface is almost as convenient, but kind of annoying because you have to either write out your markup and put it in a string in the Deface override, or make a string that renders a new template.
 From what I can tell, most people just put all of their markup in a string.
 
@@ -50,4 +50,4 @@ This is the same as completely overwriting the view with a file in `app/views/sp
 <% end %>
 {% endcodeblock %}
 
-I prefer overwritting the view completely, especially if I am changing multiple things or adding lots of markup, but that can cause problem if you update Spree and they change that template, because you then wouldn't get that updated template.
+I prefer overwriting the view completely, especially if I am changing multiple things or adding lots of markup, but that can cause problem if you update Spree and they change that template, because you then wouldn't get that updated template.

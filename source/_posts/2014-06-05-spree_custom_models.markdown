@@ -60,7 +60,7 @@ end
 {% endcodeblock %}
 
 Everything is standard rails, but if you want to interact with things built into spree, we need to decorate spree's models.
-So to add the association on Spree's model, we can class eval Spree::Product and add our associations.
+To do that we can class eval the model and add what we need, like this:
 
 {% codeblock app/models/spree/product_decorator.rb lang:ruby %}
 module Spree

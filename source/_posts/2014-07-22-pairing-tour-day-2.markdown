@@ -1,0 +1,13 @@
+---
+layout: post
+title: "Pairing Tour: Day 2"
+date: 2014-07-22 
+---
+
+Today I paired with Craig for the second day of my Pairing Tour. Craig lives up by Libertyville, so I took a bit of an adventure up to 8th Light's Libertyville office to pair with him. Craig had work to do for two different clients, which I thought was a pretty cool experience. I was able to get exposure to two different apps, and it allowed us to change up what we were working on mid-day. 
+
+The first app only needed a bit of work, a migration that dropped a column from a table. The column was added last week by Craig during a refactor, so it was a pretty simple change, as it was not used much in the app. The column was only left to hold some data, wouldn't be needed anymore, but left as a safety net, in case there were issues with the refactor. The migration needed to be ran in production, so a lot of thought needed to be put into it. We had checked with the Ops team to see what kind of effect it would have on user experience, as it would lock the table while running. It turned out that the migration only took a few seconds to run so the impact wouldn't be too severe.  The migration was ran in three environments, with the full test suite each time, to make sure there weren't any issues. The Ops team also followed the logs during each migration to watch for any issues. After everyone was confident in the change, we were able to run the migration in production.
+
+After we finished the first task of the day, we could move to the next client app. This client was pretty different than what I was used to.  The majority of the company worked remote. They used an app called [Sococo](https://www.sococo.com/), a virtual office, for communication. The virtual office had lots of offices you could pop into if you need to chat with someone. There was also larger space where they held stand up and a tech talk during lunch. When we had a question about a feature, we could pop into someones office and chat with them about the feature. It was pretty cool. There was a short list of features that we worked on. Once we figured out what needed to happen with the first one, the others were pretty quick, and easy to follow.
+
+Once we finished the features for the day, we were able to go through the specs we worked in and do some refactoring. I spotted some duplication, that we were able to pull into a let. Craig also showed me a refactor that I overlooked. We could inject the params into a commonly used method, instead of stubbing the global instance for every spec. Unfortunatly, we weren't able to do that last refactor while I was there. I had to catch the train home, but that's a refactor I need to watch out for better in the future, so I don't overlook it again.
